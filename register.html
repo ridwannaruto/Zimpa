@@ -80,8 +80,23 @@
 
 			new stepsForm( theForm, {
 				onSubmit : function( form ) {
-					// hide form
+					// hide form					
 					classie.addClass( theForm.querySelector( '.simform-inner' ), 'hide' );
+					var username = theForm.username.value;
+					var firstname = theForm.firstname.value;
+					var password = theForm.password.value;
+					
+					var params = "username=" + username + "&password=" + password + "&firstname=" + firstname;					
+					
+					var xmlhttp = new XMLHttpRequest();            		
+            		xmlhttp.open("POST","http://udara.kd.io:8080/ZimpaApp/register",false);
+            		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            		xmlhttp.send(params);
+            		var response = JSON.parse(xmlhttp.response);
+            		if (!response.success){
+            			var messageEl = theForm.querySelector( '.final-message' );
+						messageEl.innerHTML = 'Something went wrong!<br>Please try again later<br><button class="btn btn-mini btn-primary">Try again</button></a>';
+            		}  
 
 					/*
 					form.submit()
@@ -90,8 +105,10 @@
 					*/
 
 					// let's just simulate something...
-					var messageEl = theForm.querySelector( '.final-message' );
-					messageEl.innerHTML = 'Thank you!';
+					else{
+						var messageEl = theForm.querySelector( '.final-message' );
+						messageEl.innerHTML = 'Thank you!<br><br>Please send the following message to 77100<br><br>\'zimpa activate '+ response.code;						
+					}
 					classie.addClass( messageEl, 'show' );
 				}
 			} );
