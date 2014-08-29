@@ -214,8 +214,9 @@
             var params = "username=".concat(input);
             xmlhttp.open("POST","http://udara.kd.io:8080/ZimpaApp/checkuser",false);
             xmlhttp.send(params);
-            var response = xmlhttp.response;
-            if (response=='true'){
+            var response = xmlhttp.response;       
+		
+            if (response=='false'){
                 this._showError('USERNAMEEXISTS');
                 return false;
             }
