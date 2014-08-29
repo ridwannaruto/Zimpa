@@ -201,10 +201,42 @@
 	stepsForm.prototype._validade = function() {
 		// current question´s input
 		var input = this.questions[ this.current ].querySelector( 'input' ).value;
+		var name = this.questions[ this.current ].querySelector( 'input' ).name;
+		var password;
 		if( input === '' ) {
 			this._showError( 'EMPTYSTR' );
 			return false;
 		}
+		
+		if (name=="username") {
+            var xmlhttp = new XMLHttpRequest();
+            var params = "username=".concat(input);
+            xmlhttp.open("POST","http://udara.kd.io:8080/checkuser",false);
+            xmlhttp.send(params);
+            var response = xmlhttp.response;
+            if (response=='true'){
+                this._showError('USERNAMEEXISTS');
+                return false;
+            }
+
+
+        }
+        
+         if (name == 'password') {
+            if (this.questions[ this.current ].querySelector('input').value.length < 6){
+                this._showError('PASSWORDLIMIT');
+                return false;
+            }
+            password = input;
+        }
+
+        if (name == 'confirm') {
+            if (input != password){
+                this._showError('PASSWORDMISMATCH');
+                return false;
+            }
+
+        }
 
 		return true;
 	}
@@ -219,6 +251,18 @@
 			case 'INVALIDEMAIL' : 
 				message = 'Please fill a valid email address';
 				break;
+				
+			 case 'PASSWORDLIMIT' :
+                message = 'Please type a password with at least 6 characters';
+                break;
+
+            case 'PASSWORDMISMATCH':
+                message = 'Password do not match';
+                break;
+
+            case 'USERNAMEEXISTS':
+                message = 'username already exists';
+                break;
 			// ...
 		};
 		this.error.innerHTML = message;
