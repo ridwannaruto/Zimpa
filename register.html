@@ -93,8 +93,8 @@
             		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             		xmlhttp.send(params);
             		var response = JSON.parse(xmlhttp.response);
-            		if (!response.success){
-            			var messageEl = theForm.querySelector( '.final-message' );
+            		var messageEl = theForm.querySelector( '.final-message' );
+            		if (!response.success){            			
 						messageEl.innerHTML = 'Something went wrong!<br>Please try again later<br><button class="btn btn-mini btn-primary">Try again</button></a>';
             		}  
 
@@ -105,10 +105,11 @@
 					*/
 
 					// let's just simulate something...
-					else{
-						var messageEl = theForm.querySelector( '.final-message' );
+					else{					
 						messageEl.innerHTML = 'Thank you!<br><br>Please send the following message to 77100<br><br>\'zimpa activate '+ response.code;						
 					}
+					
+					
 					classie.addClass( messageEl, 'show' );
 					return false;
 				}
