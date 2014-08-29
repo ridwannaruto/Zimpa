@@ -212,7 +212,7 @@
 		if (name=="username") {
             var xmlhttp = new XMLHttpRequest();
             var params = "username=".concat(input);
-            xmlhttp.open("POST","http://udara.kd.io:8080/checkuser",false);
+            xmlhttp.open("POST","http://udara.kd.io:8080/ZimpaApp/checkuser",false);
             xmlhttp.send(params);
             var response = xmlhttp.response;
             if (response=='true'){
