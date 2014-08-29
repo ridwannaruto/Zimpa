@@ -11,6 +11,7 @@
 ;( function( window ) {
 	
 	'use strict';
+	var verification;
 
 	var transEndEventNames = {
 			'WebkitTransition': 'webkitTransitionEnd',
@@ -202,7 +203,7 @@
 		// current question´s input
 		var input = this.questions[ this.current ].querySelector( 'input' ).value;
 		var name = this.questions[ this.current ].querySelector( 'input' ).name;
-		var password;
+		
 		if( input === '' ) {
 			this._showError( 'EMPTYSTR' );
 			return false;
@@ -227,11 +228,11 @@
                 this._showError('PASSWORDLIMIT');
                 return false;
             }
-            password = input;
+            verification = input;
         }
 
         if (name == 'confirm') {
-            if (input != password){
+            if (input != verification){
                 this._showError('PASSWORDMISMATCH');
                 return false;
             }
