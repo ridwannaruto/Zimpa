@@ -213,6 +213,7 @@
             var xmlhttp = new XMLHttpRequest();
             var params = "username=".concat(input);
             xmlhttp.open("POST","http://udara.kd.io:8080/ZimpaApp/checkuser",false);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.send(params);
             var response = xmlhttp.response;       
 		
