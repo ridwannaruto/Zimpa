@@ -195,6 +195,7 @@
 	// submits the form
 	stepsForm.prototype._submit = function() {
 		this.options.onSubmit( this.el );
+		return false;
 	}
 
 	// TODO (next version..)
