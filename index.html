@@ -11,9 +11,14 @@
 		<link rel="stylesheet" type="text/css" href="home/css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="home/css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="home/css/component.css" />
+		<link rel="stylesheet" type="text/css" href="index/css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="index/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="index/css/ns-default.css" />
+		<link rel="stylesheet" type="text/css" href="index/css/ns-style-bar.css" />
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
+		<script src="index/js/modernizr.custom.js"></script>
 	</head>
 	<body style="background: white">
 		<div class="container" style="background: white"> 
@@ -31,37 +36,96 @@
 				<form action="" method="post">
                              
                            <p align="center">
-                            <input type="text" id="username" name="_username" value="" placeholder="type your username" required="required" />
+                            <input type="text" id="username" name="username" value="" placeholder="type your username" required="required"/>
                                <br>
- <input type="password" id="password" name="_password" placeholder="type your password" required="required" />
+ <input type="password" id="password" name="password" placeholder="type your password" required="required" />
                              <br>
-                                    <button class = "btn btn-success btn-large" type="submit" id="_submit" name="_submit" >Login</button>
-
+                                   <button id="notification-trigger" class="progress-button">
+						<span class="content">Login</span>
+						<span class="progress"></span>
+					</button>
                                 </p>
 									
 
                                 
                             </form>
-                            <p align="center">                                  
+                            <p align="center" style="color: black">                                  
                                     
-                                        Not a member? <a href="register.html"><button class="btn btn-mini btn-primary">Register</button></a>
-					
-                                    
+                                        Not a zimpian? <a href="register.html"><button class="btn btn-mini btn-primary">Register</button></a>
+					                                   
                                 </p>
 			
 			
 	
 			</div>
-	
-		</div><!-- /container -->
-		<div class="footer" style="background: white">
-				<p align="center">
+			<p align="center" style="color: grey">
 					powered by<br>
 					<img src="images/Logo_Pixelz.png" width="50px">
 				</p>
 				<br>
-		</div>
+	
+		</div><!-- /container -->
+	
 		<script src="js/classie.js"></script>
 		<script src="home/js/svganimations2.js"></script>
+		<script src="index/js/notificationFx.js"></script>
+		<script>
+			(function() {
+				var bttn = document.getElementById( 'notification-trigger' );
+
+				// make sure..
+				bttn.disabled = false;
+
+				bttn.addEventListener( 'click', function() {
+					// simulate loading (for demo purposes only)
+					classie.add( bttn, 'active' );
+					setTimeout( function() {
+
+						classie.remove( bttn, 'active' );
+						
+						// create the notification
+						var username = document.getElementById( 'username' ).value;
+					
+						var password = document.getElementById( 'password' ).value;
+					
+					var params = "username=" + username + "&password=" + password ;					
+					
+						var xmlhttp = new XMLHttpRequest();            		
+            			xmlhttp.open("POST","http://udara.kd.io:8080/ZimpaApp/login",false);
+            			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            			xmlhttp.send(params);
+            			
+            			var response = xmlhttp.response;
+            			
+            			if (response == 'true'){  
+            				document.location = "home.html";
+            				
+            			}
+            			
+            			if (response == 'false'){            			
+            			
+						var notification = new NotificationFx({
+							message : '<span class="icon icon-megaphone"></span><p>Incorrect username or password</p>',
+							layout : 'bar',
+							effect : 'slidetop',
+							type : 'notice', // notice, warning or error
+							onClose : function() {
+								bttn.disabled = false;
+							}
+						});
+						// show the notification
+						notification.show();
+						
+						}
+
+						
+
+					}, 1200 );
+					
+					// disable the button (for demo purposes only)
+					this.disabled = true;
+				} );
+			})();
+		</script>
 	</body>
 </html>
